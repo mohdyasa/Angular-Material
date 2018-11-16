@@ -1,0 +1,48 @@
+.w-50{
+    width: 100% !important
+}
+table {
+    width: 100%;
+  }
+  
+  .mat-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
+  
+  td, th {
+    width: 25%;
+  }
+  .table-responsive {
+    display: table;
+}
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 20%;
+}
+h1{
+  text-align: -webkit-center;
+}
+
+
+th.mat-sort-header-sorted {
+  color: black;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+/* .mat-column-Change {
+  max-width: 70px;
+}
+.mat-column-Delete {
+  max-width: 50px;
+} */

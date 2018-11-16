@@ -1,0 +1,213 @@
+<section>
+  <div class="panel panel-default">
+    <div class="panel-body" style="background-color: #f2f2f2">
+      <div class="card">
+        <div class="page-header">
+          <br />
+          <h2 class="title" style="text-align: center; font-weight: bold">
+          </h2>
+          <br />
+          <h2 class="title" style="text-align: center">
+          </h2>
+        </div>
+        <div class="content" style="margin-left: 10px">
+          <form [formGroup]="registerForm" (ngSubmit)="registerUser()">
+            <div class="row">
+              <div class="col-md-3">
+                <mat-form-field appearance="outline" class="w-50">
+                  <input formControlName="FirstName" matInput placeholder="First Name">
+                  <mat-label>First Name</mat-label>
+                </mat-form-field>
+                <mat-error>
+                  <span *ngIf="!registerForm.get('FirstName').valid && registerForm.get('FirstName').touched">
+                    First Name is required </span>
+                </mat-error>
+              </div>
+              <div class="col-md-3">
+                    <mat-error>
+                <span *ngIf="!registerForm.get('LastName').valid && registerForm.get('LastName').touched">Last
+                  name is required</span>
+                  
+                </mat-error>
+                <mat-form-field appearance="outline" class="w-50">
+                  <input formControlName="LastName" matInput placeholder="Last Name">
+                  <mat-label>Last Name</mat-label>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                    <mat-error>
+                            <span *ngIf="!registerForm.get('DOB').valid && registerForm.get('DOB').touched">Date
+                              of
+                              Birth is required</span>
+                          </mat-error>
+                <mat-form-field appearance="outline" class="w-50">
+                  <input matInput [matDatepicker]="picker" formControlName="DOB" placeholder="Choose a date">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                  <mat-label>Date of Birth</mat-label>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                    <mat-error>
+                            <span *ngIf="!registerForm.get('Email').valid && registerForm.get('Email').touched">Email
+                              is required</span>
+                          </mat-error>
+                <mat-form-field appearance="outline" class="w-50">
+                  <input formControlName="Email" formControlName="Email" matInput placeholder="Email">
+                  <mat-label>Email</mat-label>
+                </mat-form-field>
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <mat-form-field appearance="outline" class="w-50">
+                        <mat-error>
+                                <span *ngIf="!registerForm.get('Country').valid && registerForm.get('Country').touched">
+                                    Please select a country
+                                </span>   
+                               </mat-error>
+                    <mat-select formControlName="Country" (selectionChange)="fillState($event.value)">
+                    <mat-option *ngFor="let country of countryData" [value]="country.id">
+                      {{country.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-label>Country</mat-label>
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field appearance="outline" class="w-50">
+                  <mat-select formControlName="State" (selectionChange)="fillCity($event.value)">
+                    <mat-option *ngFor="let state of stateData" [value]="state.id">
+                      {{state.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-label>State</mat-label>
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <mat-error>
+                  <span *ngIf="!registerForm.get('City').valid && registerForm.get('City').touched">City
+                    is required</span>
+                </mat-error>
+                <mat-form-field appearance="outline" class="w-50">
+                  <mat-select formControlName="City">
+                    <mat-option *ngFor="let city of cityData" [value]="city.id">
+                      {{city.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-label>City</mat-label>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                    <mat-error>
+                            <span *ngIf="!registerForm.get('Address').valid && registerForm.get('Address').touched">Address
+                                              is required</span>
+                                          </mat-error>
+                <mat-form-field appearance="outline" class="w-50">
+                   
+                  <input formControlName="Address" matInput placeholder="Address">
+                  <mat-label>Address</mat-label>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <br />
+                <mat-radio-group formControlName="Gender">
+                  <mat-radio-button value="1">Male</mat-radio-button>&nbsp;
+                  <mat-radio-button value="2">Female</mat-radio-button>
+
+                </mat-radio-group>
+                <mat-error>
+                  <span *ngIf="!registerForm.get('Gender').valid && registerForm.get('Gender').touched">Gender
+                    is required</span>
+                </mat-error>
+
+              </div>
+            </div>
+            <div class="row">
+              <div class="offset-5 col-md-4 button-row">
+                <button mat-raised-button color="primary" type="submit" [disabled]="!registerForm.valid">Submit</button>
+                <button mat-raised-button color="warn" (click)="resetForm()" type="button">Clear</button>
+              </div>
+
+            </div>
+            <br />
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <br/>
+    <div *ngIf="isLoaded">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        <!-- <mat-progress-bar mode="buffer"></mat-progress-bar> -->
+    </div>    
+    <div class="col-md-3 float-right search-div">
+  <mat-form-field class="search-form-field">
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+    </mat-form-field>
+  </div>
+          <div class="table-responsive">
+        <table mat-table [dataSource]="dataSource" matSort >
+      
+          <!-- ID Column -->
+          <ng-container matColumnDef="FirstName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+            <td mat-cell *matCellDef="let row"> {{row.FirstName}} {{row.LastName}} </td>
+          </ng-container>
+      
+          <!-- Progress Column -->
+          <!-- <ng-container matColumnDef="LastName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> LastName </th>
+            <td mat-cell *matCellDef="let row"> {{row.LastName}}</td>
+          </ng-container> -->
+      
+          <!-- Name Column -->
+          <ng-container matColumnDef="Email">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+            <td mat-cell *matCellDef="let row"> {{row.Email}} </td>
+          </ng-container>
+      
+          <!-- Color Column -->
+          <ng-container matColumnDef="Address">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Address </th>
+            <td mat-cell *matCellDef="let row" > {{row.Address}} </td>
+          </ng-container>
+          <ng-container matColumnDef="Actions">
+              <th mat-header-cell *matHeaderCellDef > Actions </th>
+          <td mat-cell *matCellDef="let row" >
+              <!-- <mat-icon class="mat-icon-rtl-mirror" svgIcon="thumb-up"></mat-icon> -->
+              <!-- <button><i class="fas fa-edit" (click)="editUser(row.Id)"></i></button> -->
+              <button mat-icon-button  (click)="editUser(row)">
+                <mat-icon aria-label="Edit">launch</mat-icon>
+              </button>
+              <!-- <button style="margin-left: 5px" (click)="deleteUser(row.Id)"><i class="fas fa-trash-alt"></i></button> -->
+              <button mat-icon-button color="warn" (click)="deleteUser(row.Id)" >
+                <mat-icon aria-label="Delete">delete_outline</mat-icon>
+              </button>
+            </td>
+            </ng-container>
+            <ng-container matColumnDef="loading">
+              <mat-footer-cell *matFooterCellDef colspan="6">
+                Loading data...
+              </mat-footer-cell>
+            </ng-container>
+            <ng-container matColumnDef="noData">
+              <mat-footer-cell *matFooterCellDef colspan="6">
+                No data.
+              </mat-footer-cell>
+            </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+          </tr>
+          <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide':!(dataSource!=null && dataSource.data.length==0)}"></mat-footer-row>
+
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" showFirstLastButtons></mat-paginator>
+
+      </div>
+    </div>
+</section>
+   
+        
