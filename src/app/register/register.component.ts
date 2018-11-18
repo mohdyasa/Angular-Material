@@ -87,10 +87,16 @@ getUserList(){
   });
 }
 editUser(row:any){
-  // this.service.getUserById(id).subscribe( result =>{
-  //   this.registerForm.controls['FirstName'].setValue(result.FirstName);
-  // });
-  console.log(row);
+  this.registerForm.controls['FirstName'].setValue(row.FirstName);
+  this.registerForm.controls['LastName'].setValue(row.LastName);
+  this.registerForm.controls['DOB'].setValue(row.Dob);
+  this.registerForm.controls['Email'].setValue(row.Email);
+  this.registerForm.controls['Country'].setValue(row.Country);
+  this.registerForm.controls['State'].setValue(row.State);
+  this.registerForm.controls['City'].setValue(row.City);
+  this.registerForm.controls['Gender'].setValue(row.Gender);
+  
+
 }
 deleteUser(id:number){
   this.service.deleteUser(id).subscribe(result =>{
@@ -99,9 +105,6 @@ deleteUser(id:number){
   this.refreshTable();
 }
 private refreshTable() {
-  // Refreshing table using paginator
-  // Thanks yeager-j for tips
-  // https://github.com/marinantonio/angular-mat-table-crud/issues/12
   this.paginator._changePageSize(this.paginator.pageSize);
 }
 }
